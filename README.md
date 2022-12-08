@@ -2,5 +2,5 @@
 
 ## Technologies :
 
-*ViteJS
-  *ThreeJS
+* ViteJS
+  * ThreeJS
