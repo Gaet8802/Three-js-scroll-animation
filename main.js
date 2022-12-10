@@ -33,10 +33,11 @@ pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointLight, ambientLight);
 
-const lightHelper = new THREE.PointLightHelper(pointLight);
+// direction of the light and pointing view :
+// const lightHelper = new THREE.PointLightHelper(pointLight);
 
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(lightHelper, gridHelper);
+scene.add(gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -55,12 +56,41 @@ function addStar() {
 
 Array(200).fill().forEach(addStar);
 
+const spaceTexture = new THREE.TextureLoader().load("space.jpg");
+scene.background = spaceTexture;
+
+// Moon
+
+const moonTexture = new THREE.TextureLoader().load("moon.jpg");
+const normalTexture = new THREE.TextureLoader().load("normal.jpg");
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial({
+    map: moonTexture,
+    normalMap: normalTexture,
+  })
+);
+
+scene.add(moon);
+
+function animateMoon() {
+  requestAnimationFrame(animateMoon);
+
+  moon.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+}
+
+animateMoon();
+
 function animate() {
   requestAnimationFrame(animate);
 
   torus.rotation.x += 0.01;
   torus.rotation.y += 0.005;
   torus.rotation.z += 0.01;
+
   renderer.render(scene, camera);
 }
 
